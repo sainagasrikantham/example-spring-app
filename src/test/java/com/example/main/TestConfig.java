@@ -1,6 +1,6 @@
-package com.foodie.main;
+package com.example.main;
 
-import com.example.util.SampleFileReader;
+import com.example.util.SampleFileReaderWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Primary;
 public class TestConfig {
     @Primary
     @Bean
-    public SampleFileReader orderFileReader() {
-        return new SampleFileReader();
+    public SampleFileReaderWriter orderFileReader() {
+        return new SampleFileReaderWriter();
     }
 }

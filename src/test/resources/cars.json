@@ -2,14 +2,19 @@
   {
     "id": "a8cfcb7613dx",
     "make": "Tesla",
-    "model": "Model S"
+    "model": "Model S",
+    "range": 402
   },
   {
     "id": "d46dd77bdffd",
-    "name": "Tesla Model X"
+    "make": "Tesla",
+    "model": "Model X",
+    "range": 354
   },
   {
     "id": "e46dd77bdffd",
-    "name": "Tesla Model 3"
+    "make": "Tesla",
+    "model": "Model 3",
+    "range": 310
   }
 ]

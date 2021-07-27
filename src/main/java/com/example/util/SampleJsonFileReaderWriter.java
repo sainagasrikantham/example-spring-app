@@ -6,7 +6,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class SampleFileReaderWriter {
+public class SampleJsonFileReaderWriter {
     @SuppressWarnings("unchecked")
     public List<Car> readCars() {
         List<Car> cars = null;
@@ -62,8 +61,6 @@ public class SampleFileReaderWriter {
         //Write JSON file
         try {
             String path = "src/test/resources";
-            File file = new File(path, "cars_new.json");
-            String absolutePath = file.getAbsolutePath();
             FileWriter fileWriter = new FileWriter(new File(path, "cars_new.json"));
             fileWriter.write(jsonArray.toJSONString());
             fileWriter.flush();

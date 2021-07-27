@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.example.config.AppConfig;
 import com.example.model.Car;
 import com.example.service.SampleInterface;
-import com.example.util.SampleFileReaderWriter;
+import com.example.util.SampleCsvFileReaderWriter;
+import com.example.util.SampleJsonFileReaderWriter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,10 @@ import java.util.List;
 public class SampleIT {
 
     @Autowired
-    SampleFileReaderWriter sampleFileReaderWriter;
+    SampleJsonFileReaderWriter sampleJsonFileReaderWriter;
+
+    @Autowired
+    SampleCsvFileReaderWriter sampleCsvFileReaderWriter;
 
     @Autowired
     @Qualifier("sample")
@@ -41,8 +45,8 @@ public class SampleIT {
     }
 
     @Test
-    public void testFileReader() {
-       List<Car> cars = sampleFileReaderWriter.readCars();
+    public void testJsonFileReader() {
+       List<Car> cars = sampleJsonFileReaderWriter.readCars();
        assertEquals(3, cars.size());
        assertEquals("Tesla", cars.get(0).getMake());
        assertEquals("Model S", cars.get(0).getModel());
@@ -50,7 +54,7 @@ public class SampleIT {
     }
 
     @Test
-    public void testFileWriter() throws URISyntaxException {
+    public void testJsonFileWriter() throws URISyntaxException {
         Car taycan = Car.builder()
                 .id(RandomStringUtils.randomAlphanumeric(16))
                 .make("Porsche")
@@ -58,11 +62,29 @@ public class SampleIT {
                 .range(310)
                 .build();
         // Write the file
-        sampleFileReaderWriter.writeCars(List.of(taycan));
+        sampleJsonFileReaderWriter.writeCars(List.of(taycan));
 
         // Verify it exists
         URL resource = getClass().getClassLoader().getResource("cars_new.json");
         File file = new File(resource.toURI());
         assertTrue(file.exists());
+    }
+
+    @Test
+    public void testCsvFileReader() {
+        List<String> fileContents = sampleCsvFileReaderWriter.readFile("sample.csv");
+        assertEquals(2, fileContents.size());
+        assertEquals("value1,value2,value3", fileContents.get(0));
+    }
+
+    @Test
+    public void testCsvFileWriter() throws InterruptedException {
+        List<String> fileContents = sampleCsvFileReaderWriter.readFile("sample.csv");
+        assertEquals(2, fileContents.size());
+        fileContents.add("value7,value8,value9");
+        sampleCsvFileReaderWriter.writeFile(fileContents, "sample_new.csv");
+        Thread.sleep(1000);
+        fileContents = sampleCsvFileReaderWriter.readFile("sample_new.csv");
+        assertEquals(3, fileContents.size());
     }
 }
